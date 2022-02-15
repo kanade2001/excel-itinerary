@@ -55,7 +55,8 @@ else:
 with open(csv_filename, encoding='utf8',newline="") as csv_file:
     csvreader = csv.reader(csv_file)
     for row in csvreader:
-        print(row)
+        editxlfile.edit_xlsx(row)
+"""
         if row[0] == "0":
             print("Check DATE")
             if row[1] not in workbook.sheetnames:
@@ -75,6 +76,7 @@ with open(csv_filename, encoding='utf8',newline="") as csv_file:
             worksheet.cell(row=row_write+1,column=6).value = row[8]
             worksheet.cell(row=row_write+2,column=5).value = row[9]
             worksheet.cell(row=row_write+2,column=6).value = row[10]
+"""
 
 
 workbook.save(xlsx_filename)
