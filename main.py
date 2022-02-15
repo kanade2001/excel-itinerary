@@ -8,7 +8,7 @@ import Edit_csv
 from config import *
 
 
-workbook = Edit_csv.openXLSX(xlsx_filename)
+workbook = Edit_xlsx.openXLSX(xlsx_filename)
 
 with open(csv_filename, encoding='utf8',newline="") as csv_file:
     csvreader = csv.reader(csv_file)
