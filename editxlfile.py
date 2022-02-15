@@ -25,7 +25,7 @@ def edit(row, worksheet):
 
     #insert rows
     rows_numbers = [0,4,3,3,3]
-    worksheet.insert_cols(row_write,rows_numbers[int(row[0])])
+    worksheet.insert_rows(row_write,rows_numbers[int(row[0])])
 
 
     #alignments settings
