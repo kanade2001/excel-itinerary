@@ -29,10 +29,10 @@ def openXLSX(xlsx_filename):
         worksheet.page_margins.footer = 0
         
         #dimensions settings
-        worksheet.column_dimensions['A'].width = 5
+        worksheet.column_dimensions['A'].width = 7
         worksheet.column_dimensions['B'].width = 1
         worksheet.column_dimensions['C'].width = 3
-        worksheet.column_dimensions['D'].width = 7
+        worksheet.column_dimensions['D'].width = 5
         worksheet.column_dimensions['E'].width = 35
         worksheet.column_dimensions['F'].width = 15
         
