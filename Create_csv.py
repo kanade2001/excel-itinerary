@@ -46,5 +46,3 @@ if 1==1:    #ジョルダン
             txt_formatting.append(','.join(map(str,datalist)))
             
 
-
-print(txt_formatting)
