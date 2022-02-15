@@ -1,5 +1,13 @@
 import openpyxl
 
+def sheet_edit(workbook,date):  #workbook, (str)DATE
+    if date not in workbook.sheetnames:
+        workbook.copy_worksheet(workbook.worksheets[0])
+        workbook.worksheets[-1].title = date
+    return workbook[date]
+
+
+
 def edit(row, worksheet):
     #insert row check
     start_time = int(row[2])

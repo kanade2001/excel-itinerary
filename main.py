@@ -42,11 +42,7 @@ with open(csv_filename, encoding='utf8',newline="") as csv_file:
     csvreader = csv.reader(csv_file)
     for row in csvreader:
         if row[0] == "DATE":
-            if row[1] not in workbook.sheetnames:
-                workbook.copy_worksheet(workbook.worksheets[0])
-                workbook.worksheets[-1].title = row[1]
-            worksheet = workbook[row[1]]
-        
+            worksheet = editxlfile.sheet_edit(workbook,row[1])
         else:
             editxlfile.edit(row,worksheet)
 

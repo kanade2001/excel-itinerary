@@ -3,9 +3,6 @@
 name = "Sample1"
 test = "A"
 
-def check():
-    print(test)
-
 #
 xlsx_filename = name + ".xlsx"
 #filename = path + filename
