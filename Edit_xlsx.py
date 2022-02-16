@@ -1,4 +1,5 @@
 import os
+import datetime
 import openpyxl
 
 def openXLSX(xlsx_filename):
@@ -47,15 +48,24 @@ def sheet_edit(workbook,date):  #workbook, (str)DATE
 
 
 
-def edit(row, worksheet):
+def edit(row, workbook):
     #insert row check
-    start_time = row[2]
+    start_time = datetime.datetime.strptime(row[2],"%Y/%m/%d %H:%M")
+    st_t = datetime.datetime.strftime(start_time,"%H:%M")
+    end_time = datetime.datetime(1,1,1)
+    en_t = ''
     if row[0] in ["1","2","3","4"]:
-        end_time = row[4]
-    else:
-        end_time = -1
+        end_time = datetime.datetime.strptime(row[4],"%Y/%m/%d %H:%M")
+        en_t = datetime.datetime.strftime(end_time,"%H:%M")
+
+
+    #worksheet select
+    worksheet = sheet_edit(workbook,datetime.datetime.strftime(start_time,"%Y-%m-%d"))
+
+
+    #collupse check
     row_write = 1
-    while worksheet.cell(row=row_write,column=1).value==None or worksheet.cell(row=row_write,column=1).value < start_time:
+    while worksheet.cell(row=row_write,column=1).value==None or worksheet.cell(row=row_write,column=1).value < datetime.datetime.strftime(start_time,"%H:%M"):
         row_write += 1
         if row_write > worksheet.max_row:
             break
@@ -64,7 +74,7 @@ def edit(row, worksheet):
     #duplicate check
     row_duplicate_check = row_write
     while row_duplicate_check<=worksheet.max_row:
-        if worksheet.cell(row=row_duplicate_check,column=1).value!=None and worksheet.cell(row=row_duplicate_check,column=1).value < end_time:
+        if worksheet.cell(row=row_duplicate_check,column=1).value!=None and worksheet.cell(row=row_duplicate_check,column=1).value < datetime.datetime.strftime(end_time,"%H:%M"):
             print("時間重複")
             return
         row_duplicate_check += 1
@@ -84,9 +94,9 @@ def edit(row, worksheet):
     #write
     if row[0] =="1":
         worksheet.cell(row=row_write,column=4).value = row[1]       #発駅
-        worksheet.cell(row=row_write,column=1).value = row[2]       #発時刻
+        worksheet.cell(row=row_write,column=1).value = st_t         #発時刻
         worksheet.cell(row=row_write+3,column=4).value = row[3]     #着駅
-        worksheet.cell(row=row_write+3,column=1).value = row[4]     #着時刻
+        worksheet.cell(row=row_write+3,column=1).value = en_t       #着時刻
         worksheet.cell(row=row_write+1,column=5).value = row[5]     #路線
         worksheet.cell(row=row_write+1,column=6).value = row[6]     #列車番号
         worksheet.cell(row=row_write+2,column=5).value = row[7]     #列車種別
