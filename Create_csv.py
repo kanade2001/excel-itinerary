@@ -52,7 +52,6 @@ if tag=='jourdan':    #jourdan
                 datalist.append('')
                 
             txt_formatting.append(datalist)
-            #txt_formatting.append(','.join(map(str,datalist)))
 
 #create csv file
 with open('Sample1.csv','w') as csv_file:

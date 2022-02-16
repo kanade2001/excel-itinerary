@@ -84,7 +84,6 @@ def edit(row, workbook):
     rows_numbers = [0,4,3,3,3]
     worksheet.insert_rows(row_write,rows_numbers[int(row[0])])
 
-
     #alignments settings
     for i in range(rows_numbers[int(row[0])]):
         worksheet.cell(row=row_write+i,column=1).alignment = openpyxl.styles.Alignment(horizontal='right')
