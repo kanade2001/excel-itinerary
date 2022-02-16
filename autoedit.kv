@@ -1,0 +1,45 @@
+#:kivy 2.0.0
+<Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.size
+        canvas.before:
+            Color:
+                rgba: 1,1,1,0.8 # 青色
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        OpeSCN:
+            size_hint_y: 0.1
+        ResultSCN:
+            size_hint_y: 0.9
+        
+
+<<OpeSCN>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        BoxLayout:
+            TextInput:
+                size_hint_x: 0.8
+                text: 'ファイルパス'
+            Button:
+                size_hint_x: 0.1
+                text: '…'
+            Button:
+                size_hint_x: 0.1
+                text: '実行'
+
+<ResultSCN>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 0.5,0,0,1 # 赤色
+                Rectangle:
+                    size: root.size
+            BoxLayout:
+                Label:
+                    text: 'bbbb'
