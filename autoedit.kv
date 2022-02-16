@@ -1,7 +1,7 @@
 #:kivy 2.0.0
 <Screen>:
     BoxLayout:
-        orientation: 'vertical'
+        orientation: 'horizontal'
         size: root.size
         canvas.before:
             Color:
@@ -9,37 +9,62 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
-        OpeSCN:
-            size_hint_y: 0.1
-        ResultSCN:
-            size_hint_y: 0.9
-        
+        Edit_Auto:
+            size_hint_x: 0.5
+        Preview:
+            size_hint_x: 0.5
 
-<<OpeSCN>:
+<Edit_Auto>:
     BoxLayout:
+        orientation: 'vertical'
         size: root.size
         pos: root.pos
         BoxLayout:
             TextInput:
-                size_hint_x: 0.8
+                size_hint_y: 0.8
                 text: 'ファイルパス'
             Button:
-                size_hint_x: 0.1
+                size_hint_y: 0.1
                 text: '…'
             Button:
-                size_hint_x: 0.1
+                size_hint_y: 0.1
                 text: '実行'
 
-<ResultSCN>:
+<Preview>:
     BoxLayout:
+        orientation: 'vertical'
         size: root.size
         pos: root.pos
         BoxLayout:
-            canvas:
-                Color:
-                    rgba: 0.5,0,0,1 # 赤色
-                Rectangle:
-                    size: root.size
-            BoxLayout:
-                Label:
-                    text: 'bbbb'
+            Button:
+                text: 'right'
+
+
+保存
+import kivy
+from kivy.app import App
+
+from kivy.core.text import LabelBase, DEFAULT_FONT  # 追加分
+from kivy.resources import resource_add_path  # 追加分
+
+#resource_add_path('c:/Windows/Fonts')  # 追加分
+#LabelBase.register(DEFAULT_FONT, 'msgothic.ttc')  # 追加分
+
+#import japanese_kivy
+#Builder.load_file('./autoedit.kv')
+
+class Preview(kivy.uix.widget.Widget):
+    pass
+class Edit_Auto(kivy.uix.widget.Widget):
+    pass
+
+class Screen(kivy.uix.widget.Widget):
+    pass
+
+class AutoeditApp(kivy.app.App):
+    def build(self):
+        return Screen()
+    
+
+if __name__ == '__main__':
+    AutoeditApp().run()
