@@ -1,5 +1,19 @@
 import tkinter as tk
 
+class widget_template:
+    def reference_file(widget,text=''):
+        label = tk.Label(widget,text='ファイル',width=10)
+        label.pack(side=tk.LEFT)
+        entry = tk.Entry(widget,text=text)
+        entry.pack(side=tk.LEFT,expand=1,fill=tk.X)
+        button = tk.Button(widget,text='参照',width=5)
+        button.pack(side=tk.LEFT)
+    
+    def buttons(widget,list,width,expandsettings):
+        for i, text in enumerate(list):
+            button = tk.Button(widget,text=text,width=width[i])
+            button.pack(expand=expandsettings[i],side=tk.LEFT,fill=tk.BOTH)
+
 
 #-----------------------------------Edit_frame-----------------------------
 
@@ -24,51 +38,62 @@ class App(tk.Tk):
         right_frame = tk.PanedWindow(paned_window,orient='vertical')
         paned_window.add(right_frame)
         
-
 #-----------------------------------Left_frame-----------------------------
-#-----------------------------------Header_frame---------------------------
+        frame_settings.header_frame(left_frame)
+        frame_settings.main_edit_frame(left_frame)
+        frame_settings.footer_frame(left_frame)
 
-        header_frame = tk.Frame(left_frame,height=50,bg='gray')
-        header_frame.pack(expand=0,fill=tk.X)
+#-----------------------------------Right_frame----------------------------
+
+class frame_settings:
+#-----------------------------------Header_frame---------------------------
+    def header_frame(widget):
+        frame = tk.Frame(widget,height=10,bg='white',relief='solid',bd=2)
+        frame.pack(expand=0,fill=tk.X)
         
-        header_label = tk.Label(header_frame,text='Title:',width=10)
+        header_label = tk.Label(frame,text='Title:',width=10,height=3)
         header_label.pack(side='left')
-        header_title = tk.Label(header_frame,text='Sample1',width=25)
+        header_title = tk.Label(frame,text='Sample1',width=25,height=3)
         header_title.pack(side='left',expand=1,fill='both')
-        header_editbutton = tk.Button(header_frame,text='編集',width=5)
+        header_editbutton = tk.Button(frame,text='編集',width=5,height=3)
         header_editbutton.pack(side='left')
         
 #-----------------------------------Main_frame-----------------------------
-        main_edit_frame = tk.Frame(left_frame,height=100,bg='black')
-        main_edit_frame.pack(expand=1,fill=tk.BOTH)
+    def main_edit_frame(widget):
+        frame = tk.Frame(widget,height=60,bg='black')
+        frame.pack(expand=1,fill=tk.BOTH)
         
-        
-        
-        first_frame = tk.Frame(main_edit_frame,height=25)
+        first_frame = tk.Frame(frame,height=10)
         first_frame.pack(fill=tk.X)
-        button_auto = tk.Button(first_frame,text='Auto')
-        button_auto.pack(expand=1,fill=tk.BOTH,side=tk.LEFT)
-        button_manual = tk.Button(first_frame,text='Manual')
-        button_manual.pack(expand=1,fill=tk.BOTH,side=tk.LEFT)
+        button_auto = tk.Button(first_frame,text='Auto',width=10,height=2,relief='raised',bd=20)
+        button_auto.pack(side='left',expand=1,fill='x')
+        button_auto = tk.Button(first_frame,text='Manual',width=10,height=2,relief='raised',bd=5)
+        button_auto.pack(side='left',expand=1,fill='x')
         
-        second_frame_auto = tk.Frame(main_edit_frame,height=25)
+        
+        second_frame_auto = tk.Frame(frame,height=10)
         second_frame_auto.pack(fill=tk.X)
-        sfa_label = tk.Label(second_frame_auto,text='ファイル',width=10)
-        sfa_label.pack(side=tk.LEFT)
-        sfa_entry = tk.Entry(second_frame_auto)
-        sfa_entry.pack(side=tk.LEFT,expand=1,fill=tk.X)
-        sfa_button = tk.Button(second_frame_auto,text='参照',width=5)
-        sfa_button.pack(side=tk.LEFT)
+        widget_template.reference_file(second_frame_auto,'Sample1')     #ファイル参照ウィンドウ
         
-        
-        
+        third_frame_auto = tk.Frame(frame,height=40)
+        third_frame_auto.pack(expand=1,fill=tk.BOTH)
+        txtbox =tk.Text(third_frame_auto,width=50,height=30)
+        txtbox.pack(expand=1,fill=tk.BOTH,side='left')
+        scroll = tk.Scrollbar(third_frame_auto, orient='vertical', command=txtbox.yview)
+        scroll.pack(side='right', fill=tk.Y)
+        txtbox["yscrollcommand"] = scroll.set
+
         
 #-----------------------------------Footer_frame---------------------------
-        footer_frame = tk.Frame(left_frame,bg='gray')
-        footer_frame.pack(fill=tk.X)
-        
-
-#-----------------------------------Right_frame----------------------------
+    def footer_frame(widget):
+        frame = tk.Frame(widget,bg='white')
+        frame.pack(fill=tk.X)
+        left = tk.Frame(frame)
+        left.pack(side='left')
+        right = tk.Frame(frame)
+        right.pack(side='right')
+        widget_template.buttons(left,['戻る','やり直し'], [10,10], [0,0])
+        widget_template.buttons(right,['入力消去','確定'],[10,10],[0,0])
 
 
 
