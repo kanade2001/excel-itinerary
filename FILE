@@ -1,0 +1,25 @@
+-main.py
+    -GUI.py
+        -GUI_TEMPLATE.py
+        -GUI_EDIT.py
+    
+    -Create_csv.py
+    -Edit_xlsx.py
+
+    -config.py
+-DATA
+    -line.csv
+    -station.csv
+
+-README
+-LICENSE
+-VERSION
+
+
+
+-Sample1.csv
+-Sample1.txt
+-Sample1.xlsx
+
+-.gitignore
+-autoedit.kv(消去)
