@@ -1,8 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from ttkthemes import *
-
 from GUI_TEMPLATE import *
 import GUI_EDIT
 
@@ -17,9 +15,7 @@ class App(tk.Tk):
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
-        
-        s = ttk.Style()
-        s.theme_use('black')
+
 
 #-----------------------------------main_frame-----------------------------
         paned_window = ttk.PanedWindow(self,orient='horizontal')
