@@ -2,6 +2,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from GUI_TEMPLATE import *
 
+import config
+
 class frame_settings:
 #-----------------------------------Header_frame---------------------------
     def header_frame(widget):
@@ -19,14 +21,16 @@ class frame_settings:
     def main_edit_frame(widget):
         
         def change_button_manual():
-            button_auto.config(state=tk.DISABLED)
-            button_manual.config(state=tk.ACTIVE)
-            second_frame_manual.tkraise()
-            
-        def change_button_auto():
             button_auto.config(state=tk.ACTIVE)
             button_manual.config(state=tk.DISABLED)
+            second_frame_manual.tkraise()
+            third_frame_manual.tkraise()
+            
+        def change_button_auto():
+            button_auto.config(state=tk.DISABLED)
+            button_manual.config(state=tk.ACTIVE)
             second_frame_auto.tkraise()
+            third_frame_manual.tkraise()
             
         
         frame = ttk.Frame(widget,height=60)
@@ -37,8 +41,8 @@ class frame_settings:
         first_frame.pack(fill=tk.X)
         button_auto = ttk.Button(first_frame,text='Auto',width=10)
         button_manual = ttk.Button(first_frame,text='Manual',width=10)
-        button_auto.config(command=lambda: change_button_manual(),state=tk.ACTIVE)
-        button_manual.config(command=lambda: change_button_auto(),state=tk.DISABLED)
+        button_auto.config(command=lambda: change_button_auto(),state=tk.DISABLED)
+        button_manual.config(command=lambda: change_button_manual(),state=tk.ACTIVE)
         button_auto.pack(side='left',expand=1,fill='x')
         button_manual.pack(side='left',expand=1,fill='x')
         
@@ -55,7 +59,10 @@ class frame_settings:
         second_frame_manual = ttk.Frame(second_frame)
         second_frame_manual.grid(row=0, column=0, sticky='nsew')
         
-        second_frame_auto.tkraise()
+        if config.Default_edit == 'AUTO':
+            second_frame_auto.tkraise()
+        else:
+            second_frame_manual.tkraise()
         
         
         #third_frame
@@ -64,13 +71,21 @@ class frame_settings:
         third_frame.grid_rowconfigure(0,weight=1)
         third_frame.grid_columnconfigure(0,weight=1)
         
-        third_frame_auto = ttk.Frame(frame,height=40)
+        third_frame_auto = ttk.Frame(third_frame,height=40)
         third_frame_auto.pack(expand=1,fill=tk.BOTH)
         txtbox =tk.Text(third_frame_auto,width=50,height=30)
         txtbox.pack(expand=1,fill=tk.BOTH,side='left')
         scroll = ttk.Scrollbar(third_frame_auto, orient='vertical', command=txtbox.yview)
         scroll.pack(side='right', fill=tk.Y)
         txtbox["yscrollcommand"] = scroll.set
+        
+        third_frame_manual = ttk.Frame(third_frame,height=10)
+        third_frame_manual.pack(expand=1,fill=tk.BOTH)
+        
+        if config.Default_edit == 'AUTO':
+            third_frame_auto.tkraise()
+        else:
+            third_frame_manual.tkraise()
 
 
 #-----------------------------------Footer_frame---------------------------
