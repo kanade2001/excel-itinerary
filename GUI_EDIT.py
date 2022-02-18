@@ -17,28 +17,52 @@ class frame_settings:
         
 #-----------------------------------Main_frame-----------------------------
     def main_edit_frame(widget):
-        def change_button(button1,button2):
-            button1.config(state=tk.DISABLED)
-            button2.config(state=tk.ACTIVE)
-            print('Changed')
+        
+        def change_button_manual():
+            button_auto.config(state=tk.DISABLED)
+            button_manual.config(state=tk.ACTIVE)
+            second_frame_manual.tkraise()
+            
+        def change_button_auto():
+            button_auto.config(state=tk.ACTIVE)
+            button_manual.config(state=tk.DISABLED)
+            second_frame_auto.tkraise()
             
         
         frame = ttk.Frame(widget,height=60)
         frame.pack(expand=1,fill=tk.BOTH)
         
+        #first_frame(Fixed)
         first_frame = ttk.Frame(frame,height=10)
         first_frame.pack(fill=tk.X)
         button_auto = ttk.Button(first_frame,text='Auto',width=10)
         button_manual = ttk.Button(first_frame,text='Manual',width=10)
-        button_auto.config(command=lambda: change_button(button_auto,button_manual),state=tk.ACTIVE)
-        button_manual.config(command=lambda: change_button(button_manual,button_auto),state=tk.DISABLED)
+        button_auto.config(command=lambda: change_button_manual(),state=tk.ACTIVE)
+        button_manual.config(command=lambda: change_button_auto(),state=tk.DISABLED)
         button_auto.pack(side='left',expand=1,fill='x')
         button_manual.pack(side='left',expand=1,fill='x')
         
+        #second_frame
+        second_frame = ttk.Frame(frame,height=10)
+        second_frame.pack(fill=tk.X)
+        second_frame.grid_rowconfigure(0, weight=1)
+        second_frame.grid_columnconfigure(0, weight=1)
         
-        second_frame_auto = ttk.Frame(frame,height=10)
-        second_frame_auto.pack(fill=tk.X)
+        second_frame_auto = ttk.Frame(second_frame)
+        second_frame_auto.grid(row=0, column=0, sticky='nsew')
         widget_template.reference_file(second_frame_auto,'Sample1')     #ファイル参照ウィンドウ
+        
+        second_frame_manual = ttk.Frame(second_frame)
+        second_frame_manual.grid(row=0, column=0, sticky='nsew')
+        
+        second_frame_auto.tkraise()
+        
+        
+        #third_frame
+        third_frame = ttk.Frame(frame,heigh=10)
+        third_frame.pack(fill=tk.X)
+        third_frame.grid_rowconfigure(0,weight=1)
+        third_frame.grid_columnconfigure(0,weight=1)
         
         third_frame_auto = ttk.Frame(frame,height=40)
         third_frame_auto.pack(expand=1,fill=tk.BOTH)

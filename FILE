@@ -15,11 +15,11 @@
 -LICENSE
 -VERSION
 
-
-
+<TestCases>
 -Sample1.csv
 -Sample1.txt
 -Sample1.xlsx
 
+<System>
 -.gitignore
 -autoedit.kv(消去)

@@ -5,12 +5,7 @@ from GUI_TEMPLATE import *
 import GUI_EDIT
 
 
-
-
-
-
 #-----------------------------------Edit_frame-----------------------------
-
 class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
@@ -22,8 +17,6 @@ class App(tk.Tk):
         self.grid_columnconfigure(0, weight=1)
 
 #-----------------------------------main_frame-----------------------------
-        # メインページフレーム作成
-        
         paned_window = ttk.PanedWindow(self,orient='horizontal')
         paned_window.pack(expand=True,fill=tk.BOTH,side='left')
         
@@ -38,6 +31,7 @@ class App(tk.Tk):
         GUI_EDIT.frame_settings.footer_frame(left_frame)
 
 #-----------------------------------Right_frame----------------------------
+
 
 if __name__ == '__main__':
     app = App()
