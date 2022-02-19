@@ -4,6 +4,8 @@ import tkinter.ttk as ttk
 import config
 from GUI_TEMPLATE import *
 
+edit_mode = 1
+
 class frame_settings:
 #-----------------------------------Header_frame---------------------------
     def header_frame(widget):
@@ -19,23 +21,24 @@ class frame_settings:
         
 #-----------------------------------Main_frame-----------------------------
     def main_edit_frame(widget):
-        
-        def Change_Button(num):
-            button_auto.config(state=tk.ACTIVE)
-            button_manual.config(state=tk.ACTIVE)
-            if num==1:
-                button_auto.config(state=tk.DISABLED)
-                second_frame_auto.tkraise()
-            elif num==2:
-                button_manual.config(state=tk.DISABLED)
-                second_frame_manual.tkraise()
-        
         frame = ttk.Frame(widget,height=60)
         frame.pack(expand=1,fill=tk.BOTH)
         
         #first_frame(Fixed)
         first_frame = ttk.Frame(frame,height=10)
         first_frame.pack(fill=tk.X)
+        def Change_Button(num):
+            button_auto.config(state=tk.ACTIVE)
+            button_manual.config(state=tk.ACTIVE)
+            global edit_mode
+            if num==1:
+                button_auto.config(state=tk.DISABLED)
+                second_frame_auto.tkraise()
+                edit_mode = 1
+            elif num==2:
+                button_manual.config(state=tk.DISABLED)
+                second_frame_manual.tkraise()
+                edit_mode = 2
         button_auto = ttk.Button(first_frame,text='Auto',width=10)
         button_manual = ttk.Button(first_frame,text='Manual',width=10)
         button_auto.config(command=lambda: Change_Button(1))
@@ -97,5 +100,11 @@ class frame_settings:
         l2.pack(side='left')
         r1 = ttk.Button(right,text='入力欄クリア',width=15)
         r1.pack(side='left')
-        r2 = ttk.Button(right,text='入力確定',width=15,command=lambda: button_event.Edit_Enter())
+        def Enter():
+            global edit_mode
+            if edit_mode == 1:
+                print('edit=1')
+            elif edit_mode ==2:
+                print('edit=2')
+        r2 = ttk.Button(right,text='入力確定',width=15,command=lambda: Enter())
         r2.pack(side='left')

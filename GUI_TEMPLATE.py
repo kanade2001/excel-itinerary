@@ -2,8 +2,9 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 class button_event:
-    def Edit_Enter():
+    def Sample():
         print('Hello')
+
 
 
 class widget_template:
