@@ -12,5 +12,7 @@ txt_filename = name + ".txt"
 jorudan_datapattern_date = "\d{4}/\d{2}/\d{2}"
 jorudan_datapattern_train = "(■|◇)[^ ]+"
 
-#Default Open Edit Mode = 'AUTO'/'MANUAL'
-Default_edit = 'AUTO'
+#Default Open Edit Mode
+Default_edit = 1
+#AUTO = 1
+#MANUAL = 2
