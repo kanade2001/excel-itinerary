@@ -1,7 +1,5 @@
 import os
 import csv
-import kivy
-import openpyxl
 
 import Edit_xlsx
 import Create_csv

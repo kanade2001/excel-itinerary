@@ -27,9 +27,7 @@ class App(tk.Tk):
         paned_window.add(right_frame)
         
 #-----------------------------------Left_frame-----------------------------
-        GUI_EDIT.frame_settings.header_frame(left_frame)
-        GUI_EDIT.frame_settings.main_edit_frame(left_frame)
-        GUI_EDIT.frame_settings.footer_frame(left_frame)
+        GUI_EDIT.main_edit(left_frame)
 
 #-----------------------------------Right_frame----------------------------
 
