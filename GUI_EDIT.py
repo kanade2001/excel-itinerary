@@ -107,14 +107,17 @@ def main_edit(widget):
         global edit_mode
         if edit_mode == 1:
             print('edit=1')
-            Inputtext = txtbox.get('1.0',tk.END + '-1c')
-            if Inputtext != '':
-                termination = Create_csv.main_Create_csv(Inputtext)
-                if termination == 1:
-                    messagebox.showwarning('入力形式エラー','入力されたデータフォーマットに対応していません')
-            elif Inputtext == '':
+            Inputtext = txtbox.get('1.0',tk.END + '-1c')    #テキストボックスに入力されているデータを取得
+            TransitData = str.split(Inputtext,'\n')
+
+            if Inputtext == '':       #入力なし
                 print('Error')
                 messagebox.showwarning('入力エラー','何も入力されていません')
+            elif Inputtext != '':     #文章入力あり
+                termination = Create_csv.main_Create_csv(TransitData)
+                if termination == 1:    #入力形式エラー
+                    messagebox.showwarning('入力形式エラー','入力されたデータフォーマットに対応していません')
+
             txtbox.delete('1.0',tk.END)
         elif edit_mode ==2:
             print('edit=2')

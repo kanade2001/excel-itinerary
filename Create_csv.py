@@ -3,17 +3,20 @@ import re
 import csv
 import sys
 import datetime
+from tracemalloc import start
 
 from config import *
 
 def main_Create_csv(txt_data):
-    #import txt data to a list
-    txt_data = []
-    with open(txt_filename, encoding='utf8', mode='r') as txt_file:
-        for line in txt_file:
-            txt_data.append(line.rstrip())
+    #txt_data = []
+    #with open(txt_filename, encoding='utf8', mode='r') as txt_file:
+    #   for line in txt_file:
+    #       txt_data.append(line.rstrip())
 
+    print('TEXTDATA')
     print(txt_data)
+    print('TEXTDATA')
+
 
     #data formatting
     txt_formatting = []
@@ -21,6 +24,7 @@ def main_Create_csv(txt_data):
 
     tag = 'jourdan'       #select website
     if tag=='jourdan':    #jourdan
+        start_flag = False
         for i, line in enumerate(txt_data):
             #DATE data
             date_data = jorudan_datapattern_date
@@ -29,11 +33,11 @@ def main_Create_csv(txt_data):
                 DATE_current = str(trigger.group())
             
             #transit data
-            if(i == len(txt_data)-1):     #skip if it was last station
-                break
-            train_data = jorudan_datapattern_train
+            
             trigger = re.match(jorudan_datapattern_train,line)
             if(trigger):
+                if start_flag == True and trigger.group()[0] =='■':
+                    break
                 datalist = ['1']
                 datalist.append(trigger.group()[1:])                                                #発駅
                 datalist.append(DATE_current + ' ' + txt_data[i+2][3:8])                            #発時間
@@ -53,6 +57,7 @@ def main_Create_csv(txt_data):
                     datalist.append('')
                     
                 txt_formatting.append(datalist)
+                start_flag = True
 
     if txt_formatting ==[]:
         return 1 #Abnormal termination

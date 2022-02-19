@@ -1,7 +1,3 @@
-import os
-path = os.getcwd()
-print(path)
-
 name = "Sample1"
 
 xlsx_filename = name + ".xlsx"
@@ -18,6 +14,3 @@ Default_edit = 1
 #AUTO = 1
 #MANUAL = 2
 
-with open(txt_filename) as f:
-    s = f.read()
-    print(s)
