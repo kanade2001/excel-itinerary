@@ -63,7 +63,7 @@ def main_Create_csv(txt_data):
         return 1 #Abnormal termination
     else:
         #create csv file
-        with open('Sample1.csv','w') as csv_file:
+        with open('Sample1.csv','w',encoding='utf-8') as csv_file:
             csv.writer(csv_file).writerows(txt_formatting)
         
         return 0 #Normal termination
