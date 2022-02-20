@@ -7,7 +7,7 @@ from tracemalloc import start
 
 from config import *
 
-def main_Create_csv(txt_data):
+def main_Create_csv(txt_data, Csv_export = False):
     #txt_data = []
     #with open(txt_filename, encoding='utf8', mode='r') as txt_file:
     #   for line in txt_file:
@@ -63,8 +63,9 @@ def main_Create_csv(txt_data):
         return 1 #Abnormal termination
     else:
         #create csv file
-        with open('Sample1.csv','w',encoding='utf-8') as csv_file:
-            csv.writer(csv_file).writerows(txt_formatting)
-        
-        return 0 #Normal termination
+        if Csv_export == True:
+            with open('Sample1.csv','w',encoding='utf-8') as csv_file:
+                csv.writer(csv_file).writerows(txt_formatting)
+            
+            return 0 #Normal termination
 

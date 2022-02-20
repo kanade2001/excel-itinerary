@@ -1,6 +1,8 @@
+import csv
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
+from unicodedata import numeric
 
 import config
 import Create_csv
@@ -11,6 +13,7 @@ from GUI_TEMPLATE import *
 
 def main_edit(widget):
     edit_mode = 1
+    Transport_list = ['鉄道','バス','空路','フェリー','徒歩','観光']
 
 #-----------------------------------Header_frame---------------------------
     
@@ -38,10 +41,12 @@ def main_edit(widget):
         if num==1:
             button_auto.config(state=tk.DISABLED)
             second_frame_auto.tkraise()
+            third_frame_auto.tkraise()
             edit_mode = 1
         elif num==2:
             button_manual.config(state=tk.DISABLED)
             second_frame_manual.tkraise()
+            third_frame_manual.tkraise()
             edit_mode = 2
     button_auto = ttk.Button(first_frame,text='Auto',width=10)
     button_manual = ttk.Button(first_frame,text='Manual',width=10)
@@ -63,7 +68,20 @@ def main_edit(widget):
     
     second_frame_manual = ttk.Frame(second_frame)
     second_frame_manual.grid(row=0, column=0, sticky='nsew')
-    
+    Transport_Buttons = []
+    def Transport_change(num):
+        def Transport_change_main():
+            print('Change to ' + str(num))
+            for i,name in enumerate(Transport_list):
+                Transport_Buttons[i] = tk.ACTIVE
+            Transport_Buttons[num]=tk.DISABLED
+            third_frame_manual_frames[num].tkraise()
+        return Transport_change_main
+    for i,name in enumerate(Transport_list):
+        Transport_Buttons.append(ttk.Button(second_frame_manual,text=name,command=Transport_change(i)))
+        Transport_Buttons[i].pack(side='left',expand=1,fill='both')
+
+
     
     
     #third_frame
@@ -73,7 +91,7 @@ def main_edit(widget):
     third_frame.grid_columnconfigure(0,weight=1)
     
     third_frame_auto = ttk.Frame(third_frame,height=40)
-    third_frame_auto.pack(expand=1,fill=tk.BOTH)
+    third_frame_auto.grid(row=0,column=0,sticky='nsew')
     txtbox =tk.Text(third_frame_auto,width=50,height=30)
     txtbox.pack(expand=1,fill=tk.BOTH,side='left')
     scroll = ttk.Scrollbar(third_frame_auto, orient='vertical', command=txtbox.yview)
@@ -81,11 +99,18 @@ def main_edit(widget):
     txtbox["yscrollcommand"] = scroll.set
     
     third_frame_manual = ttk.Frame(third_frame,height=10)
-    third_frame_manual.pack(expand=1,fill=tk.BOTH)
+    third_frame_manual.grid(row=0,column=0,sticky='nsew')
+    third_frame_manual_frames =[]
+    for i,name in enumerate(Transport_list):
+        third_frame_manual_frames.append(ttk.Frame(third_frame_manual))
+        third_frame_manual_frames[i].grid(row=0,column=0,sticky='nsew')
+        label = ttk.Label(third_frame_manual_frames[i],text=name)
+        label.pack()
     
 
         
     Change_Button(config.Default_edit)
+    Transport_change(0)()
 
 
 #-----------------------------------Footer_frame---------------------------
@@ -101,23 +126,26 @@ def main_edit(widget):
     l1.pack(side='left')
     l2 = ttk.Button(left,text='やり直し',width=10)
     l2.pack(side='left')
-    r1 = ttk.Button(right,text='入力欄クリア',width=15)
+    
+    def Clear():
+        txtbox.delete('1.0',tk.END)
+    r1 = ttk.Button(right,text='入力欄クリア',width=15,command=lambda: Clear())
     r1.pack(side='left')
+    
+    
     def Enter():
         global edit_mode
-        if edit_mode == 1:
+        if edit_mode == 1: #AUTO
             print('edit=1')
             Inputtext = txtbox.get('1.0',tk.END + '-1c')    #テキストボックスに入力されているデータを取得
             TransitData = str.split(Inputtext,'\n')
-
             if Inputtext == '':       #入力なし
                 print('Error')
                 messagebox.showwarning('入力エラー','何も入力されていません')
             elif Inputtext != '':     #文章入力あり
-                termination = Create_csv.main_Create_csv(TransitData)
+                termination = Create_csv.main_Create_csv(TransitData,Csv_export=True)
                 if termination == 1:    #入力形式エラー
                     messagebox.showwarning('入力形式エラー','入力されたデータフォーマットに対応していません')
-
             txtbox.delete('1.0',tk.END)
         elif edit_mode ==2:
             print('edit=2')
