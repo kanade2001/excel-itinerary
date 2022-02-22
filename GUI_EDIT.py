@@ -33,7 +33,6 @@ def main_edit(widget):
     
     #select_frame(Fixed)
     select_frame = frame_widget.make_frame(frame)
-    Mode_buttons = button_template.make_buttons(select_frame, MODE_list)
 
     
     #second_frame
@@ -58,7 +57,27 @@ def main_edit(widget):
         label.pack()
 
     
+    
+    Mode_buttons = button_template.make_buttons(select_frame, MODE_list)
+    Mode_buttons[0].config(
+        command=callback_button_command.mode_change(
+            num = 0,
+            buttons = Mode_buttons,
+            raise_frame = [second_frame_auto,third_frame_auto]
+            )
+        )
+    Mode_buttons[1].config(
+        command=callback_button_command.mode_change(
+            num = 1,
+            buttons = Mode_buttons,
+            raise_frame = [second_frame_manual,third_frame_manual]
+            )
+        )
+
     Transport_buttons = button_template.make_buttons(second_frame_manual, Transport_list)
+    for button in Transport_buttons:
+        button.config(command=callback_button_command.transportation_change(Transport_buttons, button))
+
 
 #-----------------------------------Footer_frame---------------------------
     frame = frame_widget.make_frame(widget)

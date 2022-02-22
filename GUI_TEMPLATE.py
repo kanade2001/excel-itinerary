@@ -33,12 +33,22 @@ class button_command:
             i.config(state = tk.ACTIVE)
         disable_button.config(state = tk.DISABLED)
     
-    def Mode_select_button(buttons, button):
-            def main():
-                Select_button(buttons, button)
-                print('hello')
-            return main
+    def Change_frame(frame):
+        frame.tkraise()
 
+
+class callback_button_command:
+    def mode_change(num, buttons, raise_frame):
+        def main():
+            button_command.Select_button(buttons, buttons[num])
+            for frame in raise_frame:
+                button_command.Change_frame(frame)
+        return main
+
+    def transportation_change(buttons, button):
+        def main():
+            button_command.Select_button(buttons, button)
+        return main
 
 class button_template:
     def make_buttons(self, list):
