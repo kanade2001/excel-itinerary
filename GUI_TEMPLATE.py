@@ -1,9 +1,43 @@
+from atexit import register
 import tkinter as tk
 import tkinter.ttk as ttk
+import re
 
-class input:
-    def Clear():
-        print('Clear')
+edit_mode = 0
+
+
+
+class widget_template:
+    def reference_file(self,text=''):
+        label = ttk.Label(self,text='ファイル',width=10)
+        label.pack(side='left')
+        entry = ttk.Entry(self,text=text)
+        entry.pack(side='left',expand=1,fill=tk.X)
+        button = ttk.Button(self,text='参照',width=5)
+        button.pack(side='left')
+        return entry
+        
+    def ScrollTxt(self):
+        textbox =tk.Text(self,width=50,height=30)
+        textbox.pack(expand=1,fill='both',side='left')
+        scroll = ttk.Scrollbar(self, orient='vertical', command=textbox.yview)
+        scroll.pack(side='right', fill='y')
+        textbox["yscrollcommand"] = scroll.set
+        return textbox
+    
+    def ENTRY(self, label_text,format = ''):
+        def validate(str):
+            return re.match(format,str)
+        vc = register(validate)
+        label = ttk.Label(self,width=15,text=label_text)
+        label.pack(expand=0,side='left')
+        entry = ttk.Entry(self)
+        if format != '':
+            print('validate')
+            entry.configure(validate='key',validatecommand=(vc, '%P'))
+        entry.pack(expand=1,side='left',fill='x')
+        return entry
+
 
 
 class button_event:
@@ -19,8 +53,6 @@ class button_event:
                 if active_frame_list != None:
                     for i in active_frame_list[num]:
                         i.tkraise()
-                
-                    
             return Change_frame_main
         Buttons = []
         for i,name in enumerate(list):
@@ -43,6 +75,8 @@ class callback_button_command:
             button_command.Select_button(buttons, buttons[num])
             for frame in raise_frame:
                 button_command.Change_frame(frame)
+            global edit_mode
+            edit_mode = num
         return main
 
     def transportation_change(buttons, button):
@@ -59,22 +93,7 @@ class button_template:
         return Buttons
 
 
-class widget_template:
-    def reference_file(self,text=''):
-        label = ttk.Label(self,text='ファイル',width=10)
-        label.pack(side=tk.LEFT)
-        entry = ttk.Entry(self,text=text)
-        entry.pack(side=tk.LEFT,expand=1,fill=tk.X)
-        button = ttk.Button(self,text='参照',width=5)
-        button.pack(side=tk.LEFT)
-        
-    def ScrollTxt(self):
-        textbox =tk.Text(self,width=50,height=30)
-        textbox.pack(expand=1,fill=tk.BOTH,side='left')
-        scroll = ttk.Scrollbar(self, orient='vertical', command=textbox.yview)
-        scroll.pack(side='right', fill=tk.Y)
-        textbox["yscrollcommand"] = scroll.set
-        return textbox
+
 
 class frame_widget:
     def make_frame(self,grid=False,height=10,expand=0,fill='x'):

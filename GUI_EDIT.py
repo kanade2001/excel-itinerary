@@ -1,3 +1,4 @@
+from ast import Import
 import csv
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -7,13 +8,13 @@ from xmlrpc.client import Transport
 
 import config
 import Create_csv
+import GUI_TEMPLATE
 from GUI_TEMPLATE import *
 
 
 
 
 def main_edit(widget):
-    edit_mode = 1
     MODE_list = ['Auto','Manual']
     Transport_list = ['鉄道','バス','空路','フェリー','徒歩','観光']
 
@@ -31,34 +32,30 @@ def main_edit(widget):
 
     frame = frame_widget.make_frame(widget)
     
-    #select_frame(Fixed)
-    select_frame = frame_widget.make_frame(frame)
-
+    first_frame = frame_widget.make_frame(frame)
+    second_frame = frame_widget.make_frame(frame,grid=True)
+    third_frame = frame_widget.make_frame(frame,grid=True,fill='both')
+    
+    #first_frame
+    Mode_buttons = button_template.make_buttons(first_frame, MODE_list)
     
     #second_frame
-    second_frame = frame_widget.make_frame(frame,grid=True)
     second_frame_auto = frame_widget.make_frame_grid(second_frame)
+    Import_file_path = widget_template.reference_file(second_frame_auto,'Sample1')     #ファイル参照ウィンドウ
+    
     second_frame_manual = frame_widget.make_frame_grid(second_frame)
+    Transport_buttons = button_template.make_buttons(second_frame_manual, Transport_list)
     
-    
-    widget_template.reference_file(second_frame_auto,'Sample1')     #ファイル参照ウィンドウ
     
     #third_frame
-    third_frame = frame_widget.make_frame(frame,grid=True,fill='both')
     third_frame_auto = frame_widget.make_frame_grid(third_frame)
     txtbox = widget_template.ScrollTxt(third_frame_auto)
     
     third_frame_manual = frame_widget.make_frame_grid(third_frame)
-    third_frame_manual_frames =[]
-    for i,name in enumerate(Transport_list):
-        third_frame_manual_frames.append(ttk.Frame(third_frame_manual))
-        third_frame_manual_frames[i].grid(row=0,column=0,sticky='nsew')
-        label = ttk.Label(third_frame_manual_frames[i],text=name)
-        label.pack()
+    Input_date = widget_template.ENTRY(third_frame_manual,label_text='日付',format='\d+')
 
-    
-    
-    Mode_buttons = button_template.make_buttons(select_frame, MODE_list)
+
+    #Button Config
     Mode_buttons[0].config(
         command=callback_button_command.mode_change(
             num = 0,
@@ -74,7 +71,8 @@ def main_edit(widget):
             )
         )
 
-    Transport_buttons = button_template.make_buttons(second_frame_manual, Transport_list)
+
+
     for button in Transport_buttons:
         button.config(command=callback_button_command.transportation_change(Transport_buttons, button))
 
@@ -98,22 +96,24 @@ def main_edit(widget):
     r1 = ttk.Button(right,text='入力欄クリア',width=15,command=lambda: Clear())
     r1.pack(side='left')
     
-    
     def Enter():
-        global edit_mode
-        if edit_mode == 1: #AUTO
-            print('edit=1')
-            Inputtext = txtbox.get('1.0',tk.END + '-1c')    #テキストボックスに入力されているデータを取得
-            TransitData = str.split(Inputtext,'\n')
-            if Inputtext == '':       #入力なし
+        if GUI_TEMPLATE.edit_mode == 0: #AUTO
+            print('edit=0')
+            ImportFile = Import_file_path.get()
+            InputText = txtbox.get('1.0',tk.END + '-1c')    #テキストボックスに入力されているデータを取得
+            TransitData = str.split(InputText,'\n')
+            if ImportFile == '' and InputText == '':       #入力なし
                 print('Error')
                 messagebox.showwarning('入力エラー','何も入力されていません')
-            elif Inputtext != '':     #文章入力あり
+            elif ImportFile != '':
+                print('未実装')
+            elif InputText != '':     #文章入力あり
                 termination = Create_csv.main_Create_csv(TransitData,Csv_export=True)
                 if termination == 1:    #入力形式エラー
                     messagebox.showwarning('入力形式エラー','入力されたデータフォーマットに対応していません')
+            Import_file_path.delete(0,tk.END)
             txtbox.delete('1.0',tk.END)
-        elif edit_mode ==2:
-            print('edit=2')
+        elif GUI_TEMPLATE.edit_mode ==1:
+            print('edit=1')
     r2 = ttk.Button(right,text='入力確定',width=15,command=lambda: Enter())
     r2.pack(side='left')
