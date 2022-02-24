@@ -1,7 +1,14 @@
+from argparse import FileType
 from atexit import register
+from distutils import command
+
 import tkinter as tk
+import tkinter.filedialog
 import tkinter.ttk as ttk
 import re
+import os
+import sys
+
 
 edit_mode = 0
 
@@ -13,7 +20,12 @@ class widget_template:
         label.pack(side='left')
         entry = ttk.Entry(self,text=text)
         entry.pack(side='left',expand=1,fill=tk.X)
-        button = ttk.Button(self,text='参照',width=5)
+        def dialog():
+            File = os.path.abspath(os.path.dirname(__file__))
+            FilePath = tkinter.filedialog.askopenfilename()
+            entry.delete(0,tk.END)
+            entry.insert(tk.END,FilePath)
+        button = ttk.Button(self,text='参照',width=5,command=lambda: dialog())
         button.pack(side='left')
         return entry
         
@@ -27,8 +39,10 @@ class widget_template:
     
     def ENTRY(self, label_text,format = ''):
         def validate(str):
-            return re.match(format,str)
-        vc = register(validate)
+            if re.fullmatch(format,str):
+                return True
+            return False
+        vc = self.register(validate)
         label = ttk.Label(self,width=15,text=label_text)
         label.pack(expand=0,side='left')
         entry = ttk.Entry(self)
@@ -38,26 +52,6 @@ class widget_template:
         entry.pack(expand=1,side='left',fill='x')
         return entry
 
-
-
-class button_event:
-    
-    def ChangeModeButtons(self,list,active_frame=None,active_frame_list=None,optcmd=0):
-        def Change_frame(num):
-            def Change_frame_main():
-                for i in Buttons:
-                    i.config(state=tk.ACTIVE)
-                Buttons[num].config(state=tk.DISABLED)
-                if active_frame != None:
-                    active_frame[num].tkraise()
-                if active_frame_list != None:
-                    for i in active_frame_list[num]:
-                        i.tkraise()
-            return Change_frame_main
-        Buttons = []
-        for i,name in enumerate(list):
-            Buttons.append(ttk.Button(self,text=name,command=Change_frame(i)))
-            Buttons[i].pack(side='left',expand=1,fill='both')
 
 class button_command:
     def Select_button(buttons, disable_button):
@@ -96,8 +90,8 @@ class button_template:
 
 
 class frame_widget:
-    def make_frame(self,grid=False,height=10,expand=0,fill='x'):
-        frame = ttk.Frame(self,height=height)
+    def make_frame(self,grid=False,height=10,expand=0,fill='x',padding=0):
+        frame = ttk.Frame(self,height=height,padding=padding)
         frame.pack(expand=expand,fill=fill)
         if grid:
                 frame.grid_rowconfigure(0, weight=1)
@@ -107,5 +101,10 @@ class frame_widget:
     def make_frame_grid(self,height=10,width=40):
         frame = ttk.Frame(self,height=10,width=40)
         frame.grid(row=0, column=0,sticky='nsew')
+        return frame
+    
+    def make_labelframe(self,text,height=10,expand=0,fill='x'):
+        frame = ttk.LabelFrame(self,height=10,width=40,text=text)
+        frame.pack(expand=expand,fill=fill)
         return frame
     

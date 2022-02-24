@@ -21,20 +21,20 @@ def main_edit(widget):
 #-----------------------------------Header_frame---------------------------
     frame = frame_widget.make_frame(widget)
     
-    header_label = ttk.Label(frame,text='Title:',width=10)
+    header_label = ttk.Label(frame,text='Title:',width=10,font=('',20))
     header_label.pack(side='left')
-    header_title = ttk.Label(frame,text='Sample1',width=25)
+    header_title = ttk.Label(frame,text='Sample1',width=25,font=('',20))
     header_title.pack(side='left',expand=1,fill='both')
     header_editbutton = ttk.Button(frame,text='編集',width=5)
     header_editbutton.pack(side='left')
         
 #-----------------------------------Main_frame-----------------------------
 
-    frame = frame_widget.make_frame(widget)
+    frame = frame_widget.make_frame(widget,padding=10,fill='both',expand=1)
     
     first_frame = frame_widget.make_frame(frame)
     second_frame = frame_widget.make_frame(frame,grid=True)
-    third_frame = frame_widget.make_frame(frame,grid=True,fill='both')
+    third_frame = frame_widget.make_frame(frame,grid=True,fill='both',expand=True)
     
     #first_frame
     Mode_buttons = button_template.make_buttons(first_frame, MODE_list)
@@ -52,7 +52,7 @@ def main_edit(widget):
     txtbox = widget_template.ScrollTxt(third_frame_auto)
     
     third_frame_manual = frame_widget.make_frame_grid(third_frame)
-    Input_date = widget_template.ENTRY(third_frame_manual,label_text='日付',format='\d+')
+    Input_date = widget_template.ENTRY(third_frame_manual,label_text='日付',format='\d{0,8}')
 
 
     #Button Config
