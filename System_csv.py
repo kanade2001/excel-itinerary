@@ -13,9 +13,6 @@ def main_Create_csv(txt_data, Csv_export = False):
     #   for line in txt_file:
     #       txt_data.append(line.rstrip())
 
-    print('TEXTDATA')
-    print(txt_data)
-    print('TEXTDATA')
 
 
     #data formatting
@@ -60,7 +57,7 @@ def main_Create_csv(txt_data, Csv_export = False):
                 start_flag = True
 
     if txt_formatting ==[]:
-        return 1 #Abnormal termination
+        return 1, txt_formatting #Abnormal termination
     else:
         #create csv file
         
@@ -68,5 +65,5 @@ def main_Create_csv(txt_data, Csv_export = False):
             with open('Sample1.csv','w',encoding='utf-8') as csv_file:
                 csv.writer(csv_file).writerows(txt_formatting)
             
-            return 0 #Normal termination
+        return 0,txt_formatting #Normal termination
 

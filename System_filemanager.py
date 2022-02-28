@@ -38,4 +38,3 @@ def openXLSX(xlsx_filename):
         worksheet.column_dimensions['F'].width = 15
         
         return workbook
-        

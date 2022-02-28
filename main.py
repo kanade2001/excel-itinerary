@@ -9,6 +9,9 @@ from config import *
 
 workbook = System_filemanager.openXLSX(xlsx_filename)
 
+def callback_workbook():
+    return workbook
+
 with open(csv_filename, encoding='utf8',newline="") as csv_file:
     csvreader = csv.reader(csv_file)
     for row in csvreader:

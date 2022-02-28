@@ -108,4 +108,3 @@ class frame_widget:
         frame = ttk.LabelFrame(self,height=10,width=40,text=text)
         frame.pack(expand=expand,fill=fill)
         return frame
-    
