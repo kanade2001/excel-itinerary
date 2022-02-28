@@ -7,7 +7,8 @@ from unicodedata import numeric
 from xmlrpc.client import Transport
 
 import config
-import Create_csv
+import System_csv
+import System_bridge
 import GUI_TEMPLATE
 from GUI_TEMPLATE import *
 
@@ -34,14 +35,14 @@ def main_edit(widget):
     
     first_frame = frame_widget.make_frame(frame)
     second_frame = frame_widget.make_frame(frame,grid=True)
-    third_frame = frame_widget.make_frame(frame,grid=True,fill='both',expand=True)
+    third_frame = frame_widget.make_frame(frame,grid=True,fill='both',expand=1)
     
     #first_frame
     Mode_buttons = button_template.make_buttons(first_frame, MODE_list)
     
     #second_frame
     second_frame_auto = frame_widget.make_frame_grid(second_frame)
-    Import_file_path = widget_template.reference_file(second_frame_auto,'Sample1')     #ファイル参照ウィンドウ
+    filepath_import = widget_template.reference_file(second_frame_auto,'Sample1')     #ファイル参照ウィンドウ
     
     second_frame_manual = frame_widget.make_frame_grid(second_frame)
     Transport_buttons = button_template.make_buttons(second_frame_manual, Transport_list)
@@ -52,7 +53,11 @@ def main_edit(widget):
     txtbox = widget_template.ScrollTxt(third_frame_auto)
     
     third_frame_manual = frame_widget.make_frame_grid(third_frame)
-    Input_date = widget_template.ENTRY(third_frame_manual,label_text='日付',format='\d{0,8}')
+    Input_date = widget_template.ENTRY(
+        third_frame_manual,
+        0,
+        label_text='日付',
+        format='\d{0,8}')
 
 
     #Button Config
@@ -98,21 +103,7 @@ def main_edit(widget):
     
     def Enter():
         if GUI_TEMPLATE.edit_mode == 0: #AUTO
-            print('edit=0')
-            ImportFile = Import_file_path.get()
-            InputText = txtbox.get('1.0',tk.END + '-1c')    #テキストボックスに入力されているデータを取得
-            TransitData = str.split(InputText,'\n')
-            if ImportFile == '' and InputText == '':       #入力なし
-                print('Error')
-                messagebox.showwarning('入力エラー','何も入力されていません')
-            elif ImportFile != '':
-                print('未実装')
-            elif InputText != '':     #文章入力あり
-                termination = Create_csv.main_Create_csv(TransitData,Csv_export=True)
-                if termination == 1:    #入力形式エラー
-                    messagebox.showwarning('入力形式エラー','入力されたデータフォーマットに対応していません')
-            Import_file_path.delete(0,tk.END)
-            txtbox.delete('1.0',tk.END)
+            System_bridge.Auto_(filepath_import,txtbox)
         elif GUI_TEMPLATE.edit_mode ==1:
             print('edit=1')
     r2 = ttk.Button(right,text='入力確定',width=15,command=lambda: Enter())
