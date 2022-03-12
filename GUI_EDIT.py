@@ -55,10 +55,25 @@ def main_edit(widget):
     third_frame_manual = frame_widget.make_frame_grid(third_frame)
     Input_date = widget_template.ENTRY(
         third_frame_manual,
-        0,
         label_text='日付',
         format='\d{0,8}')
+    dep = frame_widget.make_labelframe(third_frame_manual, 'Departure')
+    deppoint = widget_template.ENTRY_noLabel(dep)
+    deptime = widget_template.ENTRY(dep, '時刻','\d{0,4}')
+    deptrack = widget_template.ENTRY(dep, '番線')
+    
+    rot = frame_widget.make_labelframe(third_frame_manual, 'Route')
+    rot = {
+        widget_template.ENTRY(rot, '経由'),
+        widget_template.ENTRY(rot, '番号'),
+        widget_template.ENTRY(rot, '種別'),
+        widget_template.ENTRY(rot, '行先')
+    }
 
+    arr = frame_widget.make_labelframe(third_frame_manual, 'Arrival')
+    arrpoint = widget_template.ENTRY_noLabel(arr)
+    arrtime = widget_template.ENTRY(arr, '時刻','\d{0,4}')
+    arrtrack = widget_template.ENTRY(arr, '番線')
 
     #Button Config
     Mode_buttons[0].config(

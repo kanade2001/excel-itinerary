@@ -38,20 +38,25 @@ class widget_template:
         textbox["yscrollcommand"] = scroll.set
         return textbox
     
-    def ENTRY(self, row, label_text, format = ''):
+    def ENTRY(self, label_text, format = ''):
+        frame = frame_widget.make_frame(self)
         def validate(str):
             if re.fullmatch(format,str):
                 return True
             return False
         vc = self.register(validate)
-        label = ttk.Label(self,width=15,text=label_text)
-        label.grid(row=row,column=0,sticky=tk.W)
-        entry = ttk.Entry(self)
+        label = ttk.Label(frame,width=15,text=label_text)
+        label.pack(side='left',anchor='nw')
+        entry = ttk.Entry(frame)
         if format != '':
             print('validate')
             entry.configure(validate='key',validatecommand=(vc, '%P'))
-        entry.grid(row=row,column=1,sticky=tk.W+tk.E)
+        entry.pack(side='left',expand=1,fill='x',anchor='nw')
         return entry
+    
+    def ENTRY_noLabel(self, format = ''):
+        entry = ttk.Entry(self)
+        entry.pack(expand=1,fill='x')
 
 
 class button_command:
